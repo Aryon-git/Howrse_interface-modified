@@ -1,8 +1,8 @@
-// let settingRemoveHeaderBlur = true;
-// let settingRemoveHeaderScroll = true;
-// let settingRemoveEventsBlur = false;
-// let settingReduceSubmenuHeight = false;
-// let settingRemoveAdBanner = false;
+function fixAdZ() {
+    const z = document.querySelector('.banner--leaderboard');
+    if (!z) return;
+    z.style['z-index'] = 0;
+}
 
 function removeHeaderBlur() {
     const el = document.querySelector('#header-hud');
@@ -14,7 +14,7 @@ function removeHeaderBlur() {
     el.style.boxShadow = 'none';
   }
 
-function stopHeaderFollowing() {
+function stopHeaderFollowing() { 
     const el = document.querySelector('#header-hud');
     if (!el) return;
     el.style.position = 'initial';
@@ -30,6 +30,8 @@ function stopHeaderFollowing() {
       headerMenu.style.paddingTop = `${newPx}px`;
       adjustSubmenuEventTop(64);
     }
+
+    fixAdZ(); // so notifications don't hide behind the ad banner
 }
 
 function removeEventBlur() {
@@ -74,9 +76,13 @@ function adjustSubmenuEventTop(offsetPx) {
 }
 
 function fetchInformationFromOptionsPage() {
-    console.log("having fun with fetched information");
     chrome.storage.local.get("extensionOptions").then(result=> {
-        console.log(result)
+        if (!result.extensionOptions) { // if no options were changed so far
+            removeHeaderBlur();
+            stopHeaderFollowing();
+            removeEventBlur();
+            return;
+        };
         if (result.extensionOptions.removeHeaderBlur) {
             removeHeaderBlur();
         };
@@ -89,21 +95,10 @@ function fetchInformationFromOptionsPage() {
         if (result.extensionOptions.reduceSubmenuHeight) {
             reduceSubmenuHeight();
         };
-        //console.log(result.extensionOptions.blockAds);
         if (result.extensionOptions.blockAds) {
             removeBannerAside();
         }
     });
-    // browser.runtime.sendMessage({action: "get", key: "extensionOptions"})
-    //     .then(response => { /* nutze response.value */ 
-    // });
 }
 
-console.log('main.js wurde ausgefuehrt');
-
 fetchInformationFromOptionsPage();
-// removeEventBlur();
-// removeHeaderBlur();
-// // removeBannerAside(); // remove ad banner
-// stopHeaderFollowing();
-// setSubmenuLevel2Height();

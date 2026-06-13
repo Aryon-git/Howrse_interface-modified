@@ -14,15 +14,12 @@
         "default_popup": "app/options.html"
     },   
     "icons": {
-      "16": "images/icon16.png"
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png"
    },
-    /**
-    "background": {
-        "service_worker": "app/background.js"
-    }, // */
     "content_scripts": [{
-        "js": ["app/jquery.js","app/main.js"],
-        "css": ["app/modded.css"],
+        "js": ["app/main.js"],
         "matches": [
             "https://www.howrse.com/*",
             "https://us.howrse.com/*",
@@ -37,6 +34,11 @@
             "https://br.howrse.com/*",
             "https://www.lowadi.com/*",
             "https://www.howrse.it/*",
+            "https://nl.howrse.com/*",
+            "https://www.howrse.se/*",
+            "https://www.howrse.pl/*",
+            "https://www.howrse.cz/*",
+            "https://www.howrse.dk/*",
             "https://www.howrse.fi/*",
             "https://www.howrse.no/*",
             "https://www.howrse.hu/*",

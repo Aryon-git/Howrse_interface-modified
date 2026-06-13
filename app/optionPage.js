@@ -13,7 +13,14 @@ const saveBtn = document.getElementById('saveBtn');
 // Loads settings from localStorage and sets the checkboxes
 function loadOptions() {
     chrome.storage.local.get("extensionOptions").then(result=> {
-        console.log(result)
+        if (!result.extensionOptions) { // if no options were changed so far
+            optRemoveHeaderBlur.checked = true;
+            optRemoveHeaderScroll.checked = true;
+            optRemoveEventsBlur.checked = true;
+            optReduceSubmenuHeight.checked = false;
+            optBlockAds.checked = false;
+            return;
+        };
         optRemoveHeaderBlur.checked = result.extensionOptions.removeHeaderBlur;
         optRemoveHeaderScroll.checked = result.extensionOptions.removeHeaderScroll;
         optRemoveEventsBlur.checked = result.extensionOptions.removeEventsBlur;
@@ -24,26 +31,17 @@ function loadOptions() {
 
 // Saves current checkbox settings in localStorage
 function saveOptions() {
-  const cfg = {
-    removeHeaderBlur: optRemoveHeaderBlur.checked,
-    removeHeaderScroll: optRemoveHeaderScroll.checked,
-    removeEventsBlur: optRemoveEventsBlur.checked,
-    reduceSubmenuHeight: optReduceSubmenuHeight.checked,
-    blockAds: optBlockAds.checked
-  };
-  //try {
+    const cfg = {
+        removeHeaderBlur: optRemoveHeaderBlur.checked,
+        removeHeaderScroll: optRemoveHeaderScroll.checked,
+        removeEventsBlur: optRemoveEventsBlur.checked,
+        reduceSubmenuHeight: optReduceSubmenuHeight.checked,
+        blockAds: optBlockAds.checked
+    };
     chrome.storage.local.set({ "extensionOptions": cfg });
-    console.log(cfg);
-    // chrome.storage.local.get("extensionOptions").then(result=> {
-    //     console.log(result)
-    // });
-    // kurzes visuelles Feedback (optional)
     saveBtn.textContent = 'Saved';
     setTimeout(() => { saveBtn.textContent = 'Save'; }, 1000);
     if (cfg.log) console.log('Options saved:', cfg);
-  //} catch (e) {
-  //  console.error('Error on saving options:', e);
-  //}
 }
 
 // Event-Listener
