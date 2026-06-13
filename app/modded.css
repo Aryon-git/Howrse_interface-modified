@@ -1,0 +1,15 @@
+#header-hud {
+    z-index: 1000;
+    position: fixed;
+    padding: 0 20px;
+    box-sizing: border-box;
+    left: -10%;
+    right: -10%;
+    top: 0;
+    /* background: linear-gradient(180deg,rgba(0,0,0,.3) 0,rgba(153,153,153,.01) 100%); */
+    border-width: 0;
+    border-bottom-width: 2px;
+    /* border-style: solid; */
+    /* backdrop-filter:blur(25px); */
+    /* box-shadow: 0 4px 15px rgba(0,0,0,.2); */
+}

@@ -1,0 +1,50 @@
+{
+    "name": "Howrse mod new interface",
+    "version": "0",
+    "description": "Offers modifications to the howrse interface changes from the 10th June 2026.",
+    "manifest_version": 3,
+    "permissions": [
+        "pageCapture",
+        "unlimitedStorage",
+        "storage"
+    ],
+    "options_page": "app/options.html",
+    "action": {
+        "default_title": "Howrse mod new interface",
+        "default_popup": "app/options.html"
+    },   
+    "icons": {
+      "16": "images/icon16.png"
+   },
+    /**
+    "background": {
+        "service_worker": "app/background.js"
+    }, // */
+    "content_scripts": [{
+        "js": ["app/jquery.js","app/main.js"],
+        "css": ["app/modded.css"],
+        "matches": [
+            "https://www.howrse.com/*",
+            "https://us.howrse.com/*",
+            "https://www.howrse.co.uk/*",
+            "https://au.howrse.com/*",
+            "https://ca.howrse.com/*",
+            "https://www.howrse.de/*",
+            "https://ouranos.howrse.com/*",
+            "https://gaia.howrse.com/*",
+            "https://www.caballow.com/*",
+            "https://www.howrse.com.pt/*",
+            "https://br.howrse.com/*",
+            "https://www.lowadi.com/*",
+            "https://www.howrse.it/*",
+            "https://www.howrse.fi/*",
+            "https://www.howrse.no/*",
+            "https://www.howrse.hu/*",
+            "https://www.howrse.ro/*",
+            "https://www.howrse.bg/*",
+            "https://www.howrse.si/*",
+            "https://www.howrse.sk/*"
+        ],
+        "run_at": "document_end"
+    }]
+}

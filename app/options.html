@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Options</title>
+    <style>
+        body { background-color: #cbc86b; min-width: 250px;}
+        h1 {font-size: large;}
+    </style>
+</head>
+<body>
+    <h1>Howrse interface modifications</h1>
+    <form id="optionsForm">
+        <label>
+        <input type="checkbox" id="optRemoveHeaderBlur" />
+            remove header blur effect
+        </label>
+        <br/>
+        <label>
+        <input type="checkbox" id="optRemoveHeaderScroll" />
+            stop header from scrolling down
+        </label>
+        <br/>
+        <label>
+        <input type="checkbox" id="optRemoveEventsBlur" />
+            remove the blurry background from the events popup
+        </label>
+        <br/>
+        <label>
+        <input type="checkbox" id="optReduceSubmenuHeight" />
+            reduce space between submenu items
+        </label>
+        <br/>
+        <label>
+        <input type="checkbox" id="optBlockAds" />
+            remove the advertisement banner 
+        </label>
+        <br/>
+        <br/>
+        <button type="button" id="saveBtn">Save</button>
+    </form>
+
+    <script src="optionPage.js"></script>
+</body>
+</html>
