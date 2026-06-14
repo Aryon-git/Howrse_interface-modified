@@ -1,4 +1,4 @@
-# howrse_new-interface
+# howrse_interface-modified
 ## Short description
 This is a browser extension designed to work in chrome on any howrse server.
 
