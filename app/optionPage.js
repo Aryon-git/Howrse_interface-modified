@@ -3,9 +3,9 @@ const STORAGE_KEY = 'extensionOptions';
 
 // References on the elements
 const optRemoveHeaderBlur = document.getElementById('optRemoveHeaderBlur');
-const optRemoveHeaderScroll = document.getElementById('optRemoveHeaderScroll');
 const optRemoveEventsBlur = document.getElementById('optRemoveEventsBlur');
 const optReduceSubmenuHeight = document.getElementById('optReduceSubmenuHeight');
+const optHideHeaderBackButton = document.getElementById('optHideHeaderBackButton');
 const optBlockAds = document.getElementById('optBlockAds');
 
 const saveBtn = document.getElementById('saveBtn');
@@ -15,16 +15,16 @@ function loadOptions() {
     chrome.storage.local.get("extensionOptions").then(result=> {
         if (!result.extensionOptions) { // if no options were changed so far
             optRemoveHeaderBlur.checked = true;
-            optRemoveHeaderScroll.checked = true;
             optRemoveEventsBlur.checked = true;
             optReduceSubmenuHeight.checked = false;
+            optHideHeaderBackButton.checked = false;
             optBlockAds.checked = false;
             return;
         };
         optRemoveHeaderBlur.checked = result.extensionOptions.removeHeaderBlur;
-        optRemoveHeaderScroll.checked = result.extensionOptions.removeHeaderScroll;
         optRemoveEventsBlur.checked = result.extensionOptions.removeEventsBlur;
         optReduceSubmenuHeight.checked = result.extensionOptions.reduceSubmenuHeight;
+        optHideHeaderBackButton.checked = result.extensionOptions.hideHeaderBackButton;
         optBlockAds.checked = result.extensionOptions.blockAds;
     });
 }
@@ -33,9 +33,9 @@ function loadOptions() {
 function saveOptions() {
     const cfg = {
         removeHeaderBlur: optRemoveHeaderBlur.checked,
-        removeHeaderScroll: optRemoveHeaderScroll.checked,
         removeEventsBlur: optRemoveEventsBlur.checked,
         reduceSubmenuHeight: optReduceSubmenuHeight.checked,
+        hideHeaderBackButton: optHideHeaderBackButton.checked,
         blockAds: optBlockAds.checked
     };
     chrome.storage.local.set({ "extensionOptions": cfg });

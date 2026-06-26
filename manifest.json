@@ -1,6 +1,6 @@
 {
     "name": "Howrse mod new interface",
-    "version": "0",
+    "version": "0.1",
     "description": "Offers modifications to the howrse interface changes from the 10th June 2026.",
     "manifest_version": 3,
     "permissions": [

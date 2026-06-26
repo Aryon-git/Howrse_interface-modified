@@ -5,33 +5,25 @@ function fixAdZ() {
 }
 
 function removeHeaderBlur() {
-    const el = document.querySelector('#header-hud');
-    if (!el) return;
-    el.style.background = 'none';
-    el.style.backdropFilter = 'none';
-    el.style.webkitBackdropFilter = 'none';
-    el.style.borderStyle = 'none';
-    el.style.boxShadow = 'none';
-  }
+    document.styleSheets[4].insertRule(
+        `
+        #header-hud {
+            border-style: none;
+            box-shadow: none;
+        }
+        `,
+        0
+    );
 
-function stopHeaderFollowing() { 
-    const el = document.querySelector('#header-hud');
-    if (!el) return;
-    el.style.position = 'initial';
-
-    const header = document.querySelector('#header');
-    if (header) header.style.paddingTop = '0px';
-
-    const headerMenu = document.querySelector('#header-menu');
-    if (headerMenu) {
-      const prev = window.getComputedStyle(headerMenu).getPropertyValue('padding-top');
-      const prevPx = parseFloat(prev) || 0;
-      const newPx = Math.max(0, prevPx - 64);
-      headerMenu.style.paddingTop = `${newPx}px`;
-      adjustSubmenuEventTop(64);
-    }
-
-    fixAdZ(); // so notifications don't hide behind the ad banner
+    document.styleSheets[4].insertRule(
+        `
+        #header-hud::before {
+            background: none;
+            backdrop-filter: none;
+        }
+        `,
+        0
+    );
 }
 
 function removeEventBlur() {
@@ -59,12 +51,51 @@ function reduceSubmenuHeight() {
       el.style.lineHeight = '34px'; // vertical centering
       el.style.padding = '0 30px 0 10px';
     });
+
+    // fix the position of the notification element 
     const notifEl = document.querySelector('.submenu-style-1 .menu-notification');
     if (notifEl) {
         const prevTopN = window.getComputedStyle(notifEl).getPropertyValue('top');
         const prevPxN = parseFloat(prevTopN) || 0;
         notifEl.style.top = `${prevPxN - 5}px`;
     }
+
+    // fix the position of the forum submenus to match the others
+    const subEls = document.querySelectorAll('.submenu-style-1 a.level-3');
+    if (!subEls || subEls.length === 0) return;
+    subEls.forEach((el) => {
+      el.style.height = '34px';
+      el.style.lineHeight = '34px'; // vertical centering
+      el.style.padding = '0 30px 0 10px';
+    });
+
+    // fix the position of the subforum icons // top right bottom left
+    let cssRule;
+    let count = 0;
+    for (let styleSheet of document.styleSheets) {
+        count++
+        try {
+            for (let rule of styleSheet.cssRules) {
+                if (rule.selectorText === '.level-3 .header-icon') {
+                    cssRule = rule;
+                    console.log(rule);
+                    console.log(count);
+                    break;
+                }
+            }
+        } catch (e) {
+            // skips stylesheets you don't have access to (i.e. CORS)
+        }
+        if (cssRule) break;
+    }
+    document.styleSheets[count].insertRule(
+        `
+        .level-3 .header-icon {
+            padding: 0px 20px 10px 10px; 
+            fill: #AF9C8C;
+        }`,
+        0
+    )
 }
 
 function adjustSubmenuEventTop(offsetPx) {
@@ -75,25 +106,30 @@ function adjustSubmenuEventTop(offsetPx) {
     el.style.top = `${prevPx - offsetPx}px`;
 }
 
+function hideHeaderBackButton() {
+    const el = document.querySelector('.js-header__button');
+    el.style.display = 'none';
+
+}
+
 function fetchInformationFromOptionsPage() {
     chrome.storage.local.get("extensionOptions").then(result=> {
         if (!result.extensionOptions) { // if no options were changed so far
             removeHeaderBlur();
-            stopHeaderFollowing();
             removeEventBlur();
             return;
         };
         if (result.extensionOptions.removeHeaderBlur) {
             removeHeaderBlur();
         };
-        if (result.extensionOptions.removeHeaderScroll) {
-            stopHeaderFollowing();
-        };
         if (result.extensionOptions.removeEventsBlur) {
             removeEventBlur();
         };
         if (result.extensionOptions.reduceSubmenuHeight) {
             reduceSubmenuHeight();
+        };
+        if (result.extensionOptions.hideHeaderBackButton) {
+            hideHeaderBackButton();
         };
         if (result.extensionOptions.blockAds) {
             removeBannerAside();
@@ -102,3 +138,4 @@ function fetchInformationFromOptionsPage() {
 }
 
 fetchInformationFromOptionsPage();
+
