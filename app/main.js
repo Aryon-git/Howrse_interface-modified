@@ -59,12 +59,14 @@ function reduceSubmenuHeight() {
       el.style.padding = '0 30px 0 10px';
     });
 
-    // fix the position of the notification element 
-    const notifEl = document.querySelector('.submenu-style-1 .menu-notification');
-    if (notifEl) {
-        const prevTopN = window.getComputedStyle(notifEl).getPropertyValue('top');
-        const prevPxN = parseFloat(prevTopN) || 0;
-        notifEl.style.top = `${prevPxN - 5}px`;
+    // fix the position of the notification elements 
+    const notifEls = document.querySelectorAll('.submenu-style-1 .menu-notification');
+    for (let notifEl of notifEls) {
+        if (notifEl) {
+            const prevTopN = window.getComputedStyle(notifEl).getPropertyValue('top');
+            const prevPxN = parseFloat(prevTopN) || 0;
+            notifEl.style.top = `${prevPxN - 5}px`;
+        }
     }
 
     // fix the position of the forum submenus to match the others
